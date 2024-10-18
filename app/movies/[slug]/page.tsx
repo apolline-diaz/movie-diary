@@ -2,6 +2,7 @@ import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { getImageUrl, getCanonicalUrl } from "@/utils/index";
 import { Metadata, ResolvingMetadata } from "next";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -61,6 +62,9 @@ export async function generateStaticParams() {
   );
   const { data: movies } = await supabase.from("movies").select("id");
 
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user || null;
+
   if (!movies) {
     return [];
   }
@@ -75,6 +79,8 @@ export default async function Page({ params }: Props) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user || null;
 
   const { data: movie, error } = await supabase
     .from("movies")
@@ -105,6 +111,7 @@ export default async function Page({ params }: Props) {
             style={{ objectFit: "cover" }}
             src={getImageUrl(movie.image_url)}
           />
+
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-30 w-full h-full text-white p-10 flex justify-between items-end">
             <div className="flex flex-col ">
               <h2 className="text-3xl font-bold uppercase">{movie.title}</h2>
@@ -125,6 +132,15 @@ export default async function Page({ params }: Props) {
             </div>
           </div>
         </div>
+
+        <div className="absolute top-20 right-4">
+          <Link href={`/movies/edit/${movie.id}`}>
+            <button className="bg-pink-400 text-white px-4 py-2 rounded-md hover:bg-pink-600">
+              Modifier
+            </button>
+          </Link>
+        </div>
+
         <div className="p-10 gap-3 flex flex-col">
           <div className="font-bold ">
             Synopsis
