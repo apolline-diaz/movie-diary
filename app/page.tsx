@@ -59,6 +59,7 @@ export default async function Home() {
     .eq("movie_genres.genre_id", 9) // id for comedy genre
     .range(0, 10);
 
+-
   // const { data: serieMovies, error: serieMoviesError } = await supabase
   //   .from("movies")
   //   .select(
