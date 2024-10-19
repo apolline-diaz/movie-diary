@@ -16,9 +16,9 @@ export default function Searchbox({
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    const fetchMoviesByKeyword = async () => {
+    const fetchMoviesByKeywordOrTitle = async () => {
       if (search.trim() === "") {
-        // if search if empty, display all movies from last to first
+        // if search is empty, display all movies from last to first
         const { data: allMovies, error } = await supabase
           .from("movies")
           .select(
@@ -36,52 +36,69 @@ export default function Searchbox({
           onResults(allMovies as Movie[]);
         }
       } else {
-        // get if of the keyword corresponding to search
-        const { data: keywords, error: keywordError } = await supabase
-          .from("keywords")
-          .select("id")
-          .ilike("name", `%${search}%`); // search insensitive to breakage
+        // First, search for movies by title
+        const { data: moviesByTitle, error: titleError } = await supabase
+          .from("movies")
+          .select(
+            `
+            id, 
+            title, 
+            image_url, 
+            release_date
+          `
+          )
+          .ilike("title", `%${search}%`); // search by title (case insensitive)
 
-        if (keywords && keywords.length > 0) {
-          const keywordIds = keywords.map((k) => k.id); // list of keywords id corresponding
+        if (moviesByTitle && moviesByTitle.length > 0) {
+          onResults(moviesByTitle as Movie[]);
+        } else {
+          // If no movies are found by title, search by keywords
+          const { data: keywords, error: keywordError } = await supabase
+            .from("keywords")
+            .select("id")
+            .ilike("name", `%${search}%`); // search by keyword (case insensitive)
 
-          // get movies link to keywords found
-          const { data: movieKeywords, error: movieKeywordError } =
-            await supabase
-              .from("movie_keywords")
-              .select("movie_id")
-              .in("keyword_id", keywordIds); // search movies with keywords
+          if (keywords && keywords.length > 0) {
+            const keywordIds = keywords.map((k) => k.id); // list of keyword ids
 
-          if (movieKeywords && movieKeywords.length > 0) {
-            const movieIds = movieKeywords.map((mk) => mk.movie_id); // export id from movies
+            // get movies linked to the found keywords
+            const { data: movieKeywords, error: movieKeywordError } =
+              await supabase
+                .from("movie_keywords")
+                .select("movie_id")
+                .in("keyword_id", keywordIds); // search movies by keyword ids
 
-            // get movies based on movies id
-            const { data: movies, error: movieError } = await supabase
-              .from("movies")
-              .select(
+            if (movieKeywords && movieKeywords.length > 0) {
+              const movieIds = movieKeywords.map((mk) => mk.movie_id); // extract movie ids
+
+              // get movies based on movie ids
+              const { data: movies, error: movieError } = await supabase
+                .from("movies")
+                .select(
+                  `
+                  id, 
+                  title, 
+                  image_url, 
+                  release_date
                 `
-                id, 
-                title, 
-                image_url, 
-                release_date
-              `
-              )
-              .in("id", movieIds); // filter movies by id
+                )
+                .in("id", movieIds); // filter movies by ids
 
-            if (movies) {
-              onResults(movies as Movie[]);
+              if (movies) {
+                onResults(movies as Movie[]);
+              }
+            } else {
+              onResults([]); // no movie found with the keyword
             }
           } else {
-            onResults([]); // no movie found with keyword
+            onResults([]); // no keyword found
           }
-        } else {
-          onResults([]); // no keyword found
         }
       }
     };
 
     const delayDebounceFn = setTimeout(() => {
-      fetchMoviesByKeyword();
+      fetchMoviesByKeywordOrTitle();
     }, 500);
 
     return () => clearTimeout(delayDebounceFn);
@@ -97,7 +114,7 @@ export default function Searchbox({
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Tapez un mot-clé..."
+            placeholder="Tapez un titre ou un mot-clé..."
           />
         </div>
       </form>

@@ -44,6 +44,23 @@ export default async function Home() {
     .eq("movie_genres.genre_id", 15) // id for comedy genre
     .range(0, 10);
 
+  // const { data: serieMovies, error: serieMoviesError } = await supabase
+  //   .from("movies")
+  //   .select(
+  //     `
+  //       id,
+  //       title,
+  //       image_url,
+  //       release_date,
+  //       movie_genres!inner(genre_id),
+  //       genres:movie_genres!inner(genres(name))
+  //     `
+  //   )
+  //   .eq("movie_genres.genre_id", 16)
+  //   .range(0, 10);
+
+  // console.log(serieMovies);
+
   if (dramaError || comedyError) {
     return (
       <p>
@@ -103,6 +120,20 @@ export default async function Home() {
             />
           ))}
         </div>
+
+        {/* series */}
+        {/* <h2 className="text-xl my-5">Séries</h2>
+        <div className="flex flex-row-1 overflow-auto gap-5">
+          {serieMovies.map((movie) => (
+            <HomeCard
+              directors={null}
+              description={""}
+              key={`${movie.title}-${movie.id}`}
+              {...movie}
+              image_url={getImageUrl(movie.image_url)}
+            />
+          ))}
+        </div> */}
       </div>
     </main>
   );

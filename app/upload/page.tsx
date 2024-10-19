@@ -326,7 +326,6 @@ const UploadFormPage: React.FC = () => {
           >
             Mots-clés
           </label>
-
           <div className="relative">
             {/* <input
               className="block appearance-none w-full bg-gray-200 text-gray-700 border py-2 px-3 pr-8 rounded leading-tight focus:outline-none focus:bg-white"

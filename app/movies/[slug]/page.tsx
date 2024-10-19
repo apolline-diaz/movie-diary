@@ -2,6 +2,7 @@ import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 import { getImageUrl, getCanonicalUrl } from "@/utils/index";
 import { Metadata, ResolvingMetadata } from "next";
+import Link from "next/link";
 
 export const revalidate = 0;
 
@@ -61,6 +62,9 @@ export async function generateStaticParams() {
   );
   const { data: movies } = await supabase.from("movies").select("id");
 
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user || null;
+
   if (!movies) {
     return [];
   }
@@ -75,11 +79,13 @@ export default async function Page({ params }: Props) {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
+  const { data } = await supabase.auth.getUser();
+  const user = data?.user || null;
 
   const { data: movie, error } = await supabase
     .from("movies")
     .select(
-      "id, title, description, image_url, release_date, runtime, directors(id, first_name, last_name), genres(id, name), keywords(id, name), countries(id, name)"
+      "id, title, director, country, description, image_url, release_date, runtime, directors(id, first_name, last_name), genres(id, name), keywords(id, name), countries(id, name)"
     )
     .eq("id", params.slug)
     .single();
@@ -91,6 +97,17 @@ export default async function Page({ params }: Props) {
   if (!movie) {
     return <div>Film introuvable</div>;
   }
+
+  const directorName = movie.directors?.length
+    ? movie.directors
+        .map((director) => `${director.first_name} ${director.last_name}`)
+        .join(", ")
+    : movie.director; // Utilise la colonne 'director' si la relation n'existe pas
+
+  // Logique pour récupérer le pays
+  const countryName = movie.countries?.length
+    ? movie.countries.map((country) => country.name).join(", ")
+    : movie.country; // Utilise la colonne 'country' si la relation n'existe pas
 
   console.log(movie);
 
@@ -105,39 +122,42 @@ export default async function Page({ params }: Props) {
             style={{ objectFit: "cover" }}
             src={getImageUrl(movie.image_url)}
           />
+
           <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-30 w-full h-full text-white p-10 flex justify-between items-end">
             <div className="flex flex-col ">
               <h2 className="text-3xl font-bold uppercase">{movie.title}</h2>
-              <h2 className="text-lg font-light ">
-                {movie.directors
-                  ?.map(
-                    (director) => `${director.first_name} ${director.last_name}`
-                  )
-                  .join(", ")}
-              </h2>
+              <h2 className="text-lg font-light ">{directorName}</h2>
             </div>
             <div className="flex flex-col font-light items-end justify-end text-right">
               <span className="">
-                {movie.countries?.map((country) => country.name).join(", ")},{" "}
-                {movie.release_date}
+                {countryName}, {movie.release_date}
               </span>
               <span>{movie.runtime}&#x27;</span>
             </div>
           </div>
         </div>
+
+        <div className="absolute top-20 right-4">
+          <Link href={`/movies/edit/${movie.id}`}>
+            <button className="bg-pink-400 text-white px-4 py-2 rounded-md hover:bg-pink-600">
+              Modifier
+            </button>
+          </Link>
+        </div>
+
         <div className="p-10 gap-3 flex flex-col">
           <div className="font-bold ">
             Synopsis
             <p className="py-2 font-light">{movie.description}</p>
           </div>
           <div className="font-bold">
-            Genre
+            Genre :
             <span className="font-light p-2">
               {movie.genres?.map((genre) => genre.name).join(", ")}
             </span>
           </div>
           <div className="font-bold flex items-center flex-wrap gap-2">
-            Mots-clé
+            Mots-clé :
             <p className="flex flex-wrap gap-2">
               {movie.keywords?.map((keyword) => (
                 <span

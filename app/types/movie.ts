@@ -13,5 +13,5 @@ export type Movie = {
   directors: Director[];
   genres: Genre[];
   keywords: Keyword[];
-  countries: Country;
+  countries: Country[];
 };

@@ -20,6 +20,11 @@ export default function Card({
   release_date,
   image_url,
 }: CardProps) {
+  const isSupabaseImage = image_url.startsWith(
+    "https://xcwrhyjbfgzsaslstssc.supabase.co"
+  );
+  const isMubiImage = image_url.startsWith("https://images.mubicdn.net");
+
   return (
     <Link
       href={{
@@ -41,6 +46,9 @@ export default function Card({
             fill={true}
             alt={title}
             style={{ objectFit: "cover" }}
+            onError={(e) => {
+              e.currentTarget.src = "https://via.placeholder.com/640x360"; // Image de remplacement
+            }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col p-4 text-white uppercase justify-end">
             <div className="text-xl font-semi-bold line-clamp-2">{title}</div>
