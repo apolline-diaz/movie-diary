@@ -4,10 +4,10 @@ export default function Header() {
   return (
     <footer className="h-full footer  text-white p-10 b-0">
       <nav className="flex justify-between mb-2">
-        <Link href="/about" className="link link-hover">
+        <Link href="/" className="link link-hover">
           À propos
         </Link>
-        <Link href="/contact" className="link link-hover">
+        <Link href="/" className="link link-hover">
           Contact
         </Link>
       </nav>
