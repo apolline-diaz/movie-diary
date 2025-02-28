@@ -96,7 +96,7 @@ export default function ListPage({ params }: { params: { id: string } }) {
             id={movie.id}
             title={movie.title}
             description={movie.description}
-            release_date={movie.release_date}
+            releaseDate={movie.release_date}
             image_url={movie.image_url}
             directors={null}
           />

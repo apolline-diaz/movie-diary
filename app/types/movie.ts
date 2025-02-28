@@ -7,8 +7,8 @@ export type Movie = {
   id: string;
   title: string;
   description: string;
-  image_url: string;
-  release_date: string;
+  imageUrl: string;
+  releaseDate: string;
   runtime: number;
   directors: Director[];
   genres: Genre[];

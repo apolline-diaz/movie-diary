@@ -8,7 +8,7 @@ interface CardProps {
     name: string;
   } | null;
   description: string;
-  release_date: string;
+  releaseDate: string;
   image_url: string;
 }
 
@@ -16,7 +16,7 @@ export default function Card({
   id,
   title,
   description,
-  release_date,
+  releaseDate,
   image_url,
 }: CardProps) {
   const isSupabaseImage = image_url.startsWith(
@@ -32,7 +32,7 @@ export default function Card({
           id,
           title,
           description: encodeURI(description),
-          release_date,
+          releaseDate,
           image_url,
         },
       }}
@@ -50,8 +50,8 @@ export default function Card({
           />
           <div className="absolute bottom-0 left-0 w-full p-5 bg-gradient-to-t via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="text-md font-semibold uppercase">{title}</div>
-            <p className="text-sm text-gray-300">{release_date}</p>
-            <p className="absolute text-sm text-gray-200 mt-2">{description}</p>
+            <p className="text-sm text-gray-300">{releaseDate}</p>
+            <p className="absolute text-sm text-gray-100 mt-2">{description}</p>
           </div>
         </div>
       </div>
