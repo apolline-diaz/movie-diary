@@ -22,6 +22,7 @@
 - **Database**: [PostgreSQL](https://www.postgresql.org/)
 - **Authentication and Storage**: [Supabase](https://supabase.io/)
 - **Containerization**: [Docker](https://www.docker.com/)
+- **Tests**: [Playwright](https://playwright.dev/)
 
 ## 📦 Installation and Local Setup
 
@@ -71,6 +72,7 @@
 ├── utils/               # Utility functions
 ├── db/                  # Drizzle configuration and database models
 ├── public/              # Public files (images, icons, etc.)
+├── tests/               # Tests with Playwright
 ├── docker-compose.yml   # Docker configuration
 └── README.md            # Documentation
 ```

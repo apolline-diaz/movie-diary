@@ -5,7 +5,7 @@ import {
   getMoviesByGenre,
   getMoviesByYearRange,
   getTopMovies,
-} from "@/app/server-actions/movies"; // ✅ Import from server actions
+} from "@/app/server-actions/movies";
 
 export const revalidate = 0;
 
@@ -37,11 +37,10 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             {dramaMovies.map((movie) => (
               <HomeCard
-                directors={null}
                 description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
-                image_url={getImageUrl(movie.image_url)}
+                imageUrl={getImageUrl(movie.image_url)}
               />
             ))}
           </div>
@@ -51,11 +50,10 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {comedyMovies.map((movie) => (
               <HomeCard
-                directors={null}
                 description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
-                image_url={getImageUrl(movie.image_url)}
+                imageUrl={getImageUrl(movie.image_url)}
               />
             ))}
           </div>
@@ -65,11 +63,10 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {documentaryMovies.map((movie) => (
               <HomeCard
-                directors={null}
                 description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
-                image_url={getImageUrl(movie.image_url)}
+                imageUrl={getImageUrl(movie.image_url)}
               />
             ))}
           </div>
@@ -79,11 +76,11 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {ninetiesMovies.map((movie) => (
               <HomeCard
-                directors={null}
+                release_date={movie.releaseDate}
                 description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
-                image_url={getImageUrl(movie.image_url)}
+                imageUrl={getImageUrl(movie.imageUrl)}
               />
             ))}
           </div>
@@ -92,7 +89,9 @@ export default async function Home() {
     );
   } catch (error) {
     return (
-      <p>Erreur lors du chargement des films : {(error as Error).message}</p>
+      <p className="p-10">
+        Erreur lors du chargement des films : {(error as Error).message}
+      </p>
     );
   }
 }

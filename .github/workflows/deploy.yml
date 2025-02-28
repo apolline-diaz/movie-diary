@@ -1,0 +1,19 @@
+# to ensure that Next.js and Drizzle have access to DATABASE_URL during build and deployment.
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build project
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: npm run build
+
+      - name: Deploy
+        run: npm run deploy

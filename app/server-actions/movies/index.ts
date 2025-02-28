@@ -2,6 +2,13 @@
 
 import { supabase } from "@/lib/supabase";
 
+interface Movie {
+  id: string;
+  title: string;
+  imageUrl: string | null;
+  releaseDate: string | null;
+}
+
 export async function getTopMovies() {
   const { data, error } = await supabase
     .from("movies")
@@ -34,23 +41,51 @@ export async function getMoviesByGenre(genreId: number) {
   return data;
 }
 
-export async function getMoviesByYearRange(startYear: string, endYear: string) {
-  const { data, error } = await supabase
-    .from("movies")
-    .select(
-      `
-      id, 
-      title, 
-      image_url, 
-      release_date,
-      genres:movie_genres!inner(genres(name))
-      `
-    )
-    .gte("release_date", startYear)
-    .lte("release_date", endYear)
-    .order("created_at", { ascending: false })
-    .range(0, 10);
+export async function getMoviesByYearRange(
+  startYear: string,
+  endYear: string
+): Promise<Movie[]> {
+  try {
+    console.log(`Recherche de films entre ${startYear} et ${endYear}`);
 
-  if (error) throw new Error(error.message);
-  return data;
+    // Format the date ranges
+    const startDate = `${startYear}-01-01`;
+    const endDate = `${endYear}-12-31`;
+
+    // Query using Supabase
+    const { data, error } = await supabase
+      .from("movies")
+      .select("id, title, image_url, release_date")
+      .gte("release_date", startDate)
+      .lte("release_date", endDate)
+      .order("created_at", { ascending: true })
+      .limit(15);
+
+    if (error) {
+      console.error("Erreur Supabase:", error);
+      throw new Error(`Failed to fetch movies by year range: ${error.message}`);
+    }
+
+    console.log(
+      `${data?.length || 0} films trouvés entre ${startYear} et ${endYear}`
+    );
+
+    // Transform the data to match your expected format
+    const movies: Movie[] =
+      data?.map((movie) => ({
+        id: movie.id,
+        title: movie.title,
+        imageUrl: movie.image_url,
+        releaseDate: movie.release_date,
+      })) || [];
+
+    return movies;
+  } catch (error) {
+    console.error("Erreur lors de la recherche par année:", error);
+    throw new Error(
+      error instanceof Error
+        ? error.message
+        : "Failed to fetch movies by year range"
+    );
+  }
 }
