@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabase";
 
 interface Movie {
-  id: number;
+  id: string;
   title: string;
   image_url: string;
   release_date: string;

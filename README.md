@@ -16,7 +16,7 @@
 ## 🛠️ Technologies Used
 
 - **Frontend Framework**: [Next.js](https://nextjs.org/)
-- **Backend and ORM**: [Drizzle ORM](https://orm.drizzle.team/)
+- **Backend and ORM**: [Prisma ORM](https://www.prisma.io/)
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **UI**: [Tailwind CSS](https://tailwindcss.com/)
 - **Database**: [PostgreSQL](https://www.postgresql.org/)
@@ -69,7 +69,7 @@
 ├── server-actions/      # Movies (add), lists (add)
 ├── pages/               # Next.js pages
 ├── utils/               # Utility functions
-├── db/                  # Drizzle configuration and database models
+├── prisma/              # Prisma database
 ├── public/              # Public files (images, icons, etc.)
 ├── docker-compose.yml   # Docker configuration
 └── README.md            # Documentation
@@ -86,3 +86,5 @@ The database schema is managed with **Drizzle ORM** and stored in **PostgreSQL**
 ### 🌟 Note
 
 This project is developed as part of the RNCP Application Developer certification program.
+
+![CI](https://github.com/apolline-diaz/movie-diary/actions/workflows/ci.yml/badge.svg)

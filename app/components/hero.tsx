@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import Searchbox from "./searchbox";
+import Searchfield from "./searchfield";
 
 // Define the CardProps interface
 interface CardProps {

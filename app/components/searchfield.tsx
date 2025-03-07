@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { getMoviesByKeyword, getMoviesByTitle } from "@/utils/movies-search";
 
 interface Movie {
-  id: number;
+  id: string;
   title: string;
   image_url: string;
   release_date: string;
 }
 
-export default function Searchbox({
+export default function Searchfield({
   onResults,
 }: {
   onResults: (movies: Movie[]) => void;
@@ -39,7 +39,7 @@ export default function Searchbox({
       <form>
         <div className="w-full xs:w-1/2 flex flex-col sm:flex-row gap-3">
           <input
-            className="appearance-none text-md font-light block w-full bg-neutral-950 border-b border-b-white text-gray-700 py-3 leading-tight focus:outline-none "
+            className="appearance-none text-md font-light block w-full bg-neutral-950 border-b border-b-white text-gray-200 py-3 leading-tight focus:outline-none "
             id="title"
             type="text"
             value={titleSearch}
@@ -47,7 +47,7 @@ export default function Searchbox({
             placeholder="Entrez un titre"
           />
           <input
-            className="appearance-none text-md font-light block w-full bg-neutral-950 border-b border-b-white text-gray-700 py-3 leading-tight focus:outline-none "
+            className="appearance-none text-md font-light block w-full bg-neutral-950 border-b border-b-white text-gray-200 py-3 leading-tight focus:outline-none "
             id="keyword"
             type="text"
             value={keywordSearch}

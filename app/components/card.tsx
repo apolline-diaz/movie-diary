@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 interface CardProps {
-  id: number;
+  id: string;
   title: string;
   directors: {
     name: string;

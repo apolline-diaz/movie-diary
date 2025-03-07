@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { createList } from "@/app/server-actions/lists";
 import { SubmitButton } from "@/app/components/submit-button";
-import { getMovies } from "@/utils/get-movies";
+import { getMovies } from "@/app/server-actions/movies/get-movies";
 
 // Updated Types to match your actual data
 interface Movie {
