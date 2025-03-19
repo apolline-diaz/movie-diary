@@ -1,56 +1,61 @@
-import { PrismaClient } from "@prisma/client";
+"use server";
 
+import { supabase } from "@/lib/supabase";
+import { PrismaClient } from "@prisma/client";
+import { revalidatePath } from "next/cache";
+
+// initialize Prisma client
 const prisma = new PrismaClient();
 
-export async function createList(data: {
-  title: string;
-  description: string;
-  userId: string;
-  movieIds: string[];
-}) {
-  const { title, description, userId, movieIds } = data;
+export async function createList(prevState: any, formData: FormData) {
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
-  // Validation des entrées
-  if (!title || !userId) {
-    return { type: "error", message: "Title and user ID are required." };
+  if (error || !user) {
+    return {
+      type: "error",
+      message: "User not authenticated",
+    };
   }
 
-  // Ajouter la liste à la base de données
+  const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
+  const movieIds = (formData.get("movie_id") as string)
+    .split(",")
+    .filter(Boolean);
+
+  if (!title) {
+    return {
+      type: "error",
+      message: "Title is required",
+      errors: { title: ["Title is required"] },
+    };
+  }
+
   try {
-    // Créer la liste et les associations avec les films en une seule transaction
-    const result = await prisma.$transaction(async (tx) => {
-      // Créer la liste dans la base de données
-      const createdList = await tx.lists.create({
-        data: {
-          title,
-          description,
-          user_id: userId,
+    const list = await prisma.lists.create({
+      data: {
+        title,
+        description,
+        user_id: user.id,
+        lists_movies: {
+          create: movieIds.map((movieId) => ({ movie_id: movieId })),
         },
-      });
-
-      // Ajouter les films associés à la liste
-      if (movieIds.length > 0) {
-        await tx.lists_movies.createMany({
-          data: movieIds.map((movieId) => ({
-            list_id: createdList.id,
-            movie_id: movieId,
-          })),
-        });
-      }
-
-      return createdList;
+      },
     });
 
-    return { type: "success", message: "List created successfully!" };
+    revalidatePath("/lists");
+    return {
+      type: "success",
+      message: "List created successfully!",
+    };
   } catch (err) {
     console.error("Error creating list:", err);
     return {
       type: "error",
-      message: "An error occurred while creating the list.",
+      message: "Failed to create list",
     };
-  } finally {
-    // Bonnes pratiques : déconnexion de Prisma
-    // Mais on peut généralement laisser le client Prisma en vie pendant la durée de vie de l'application
-    // await prisma.$disconnect();
   }
 }

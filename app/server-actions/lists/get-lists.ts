@@ -1,36 +1,36 @@
-// Server Action for User's Movie Lists
+"use server";
+
+import { supabase } from "@/lib/supabase";
 import { PrismaClient } from "@prisma/client";
+import { getUser } from "@/lib/auth"; // Helper to get the current user
 
 const prisma = new PrismaClient();
 
-export async function getUserMovieLists(userId: string) {
-  "use server";
+export async function getUserLists() {
+  try {
+    // Get the authenticated user
+    const user = await getUser();
+    if (!user) return { error: "User not authenticated" };
 
-  const lists = await prisma.lists.findMany({
-    where: {
-      user_id: userId,
-    },
-    include: {
-      lists_movies: {
-        include: {
-          movies: {
-            include: {
-              movie_directors: {
-                include: {
-                  directors: true,
-                },
-              },
-              movie_genres: {
-                include: {
-                  genres: true,
-                },
-              },
-            },
+    // Fetch the user's lists and related movies
+    const lists = await prisma.lists.findMany({
+      where: { user_id: user.id },
+      include: {
+        lists_movies: {
+          include: {
+            movies: true, // Fetch movies inside the lists
           },
         },
       },
-    },
-  });
+    });
 
-  return lists;
+    return lists.map((list) => ({
+      id: list.id,
+      title: list.title,
+      movies: list.lists_movies.map((lm) => lm.movies),
+    }));
+  } catch (error) {
+    console.error("Error fetching lists:", error);
+    return { error: "Failed to fetch lists" };
+  }
 }
