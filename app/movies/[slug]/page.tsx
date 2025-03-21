@@ -93,13 +93,13 @@ export default async function Page({ params }: { params: { slug: string } }) {
           </div>
         </div>
 
-        {/* <div className="absolute top-20 right-4">
+        <div className="absolute top-20 right-4">
           <Link href={`/movies/edit/${movie.id}`}>
-            <button className="bg-gradient-to-r from-rose-500 to-red-500 text-white px-4 py-2 rounded-md hover:from-rose-600  hover:to-red-600">
+            <button className="bg-gradient-to-r from-rose-500 to-red-500 text-white px-4 py-2 mx-4 rounded-md hover:from-rose-600 hover:to-red-600">
               Modifier
             </button>
           </Link>
-        </div> */}
+        </div>
 
         <div className="p-10 gap-3 flex flex-col">
           <div className="flex flex-col font-light">

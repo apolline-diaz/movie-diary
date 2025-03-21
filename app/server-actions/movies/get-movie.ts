@@ -1,26 +1,16 @@
 "use server";
+
 import { PrismaClient } from "@prisma/client";
 
-// initialize Prisma client
-const prisma = new PrismaClient();
+export async function getMovie(id: string) {
+  const prisma = new PrismaClient();
 
-// get movie by Id
-
-export async function getMovie(movieId: string) {
   try {
     const movie = await prisma.movies.findUnique({
-      where: { id: movieId },
+      where: {
+        id: id,
+      },
       include: {
-        movie_directors: {
-          include: {
-            directors: true,
-          },
-        },
-        movie_countries: {
-          include: {
-            countries: true,
-          },
-        },
         movie_genres: {
           include: {
             genres: true,
@@ -31,32 +21,47 @@ export async function getMovie(movieId: string) {
             keywords: true,
           },
         },
+        movie_directors: {
+          include: {
+            directors: true,
+          },
+        },
+        movie_countries: {
+          include: {
+            countries: true,
+          },
+        },
       },
     });
 
     if (!movie) {
-      return { error: "Film introuvable" };
+      return { movie: null, error: "Movie not found" };
     }
 
-    // Reformat directors for direct access to names
-    const directors = movie.movie_directors.map((md) => md.directors);
-
-    // Reformat other relationships
-    const countries = movie.movie_countries.map((mc) => mc.countries);
-    const genres = movie.movie_genres.map((mg) => mg.genres);
-    const keywords = movie.movie_keywords.map((mk) => mk.keywords);
-
-    return {
-      movie: {
-        ...movie,
-        directors,
-        countries,
-        genres,
-        keywords,
-      },
+    const transformedMovie = {
+      ...movie,
+      runtime: movie.runtime ? Number(movie.runtime) : null,
+      genres: movie.movie_genres.map((g) => ({
+        id: Number(g.genres.id),
+        name: g.genres.name,
+      })),
+      keywords: movie.movie_keywords.map((k) => k.keywords),
+      directors: movie.movie_directors.map((d) => ({
+        id: Number(d.directors.id),
+        name: d.directors.name,
+      })),
+      countries: movie.movie_countries.map((c) => c.countries),
     };
+
+    return { movie: transformedMovie, error: null };
   } catch (error) {
-    console.error("Erreur lors de la récupération du film :", error);
-    return { error: "Une erreur est survenue" };
+    console.error("Error fetching movie:", error);
+    return {
+      movie: null,
+      error:
+        error instanceof Error ? error.message : "An unexpected error occurred",
+    };
+  } finally {
+    await prisma.$disconnect();
   }
 }

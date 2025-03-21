@@ -18,17 +18,15 @@ export default async function Home() {
     const ninetiesMovies = await getMoviesByYearRange("1990", "1999");
 
     return (
-      <main className="w-full ">
-        <div className="">
-          <div className="w-full cover">
-            {topMovies.map((movie) => (
-              <Hero
-                key={`${movie.title}-${movie.id}`}
-                {...movie}
-                image_url={getImageUrl(movie.image_url || "")}
-              />
-            ))}
-          </div>
+      <main className="w-full">
+        <div className="w-full cover">
+          {topMovies.map((movie) => (
+            <Hero
+              key={`${movie.title}-${movie.id}`}
+              {...movie}
+              image_url={getImageUrl(movie.image_url || "")}
+            />
+          ))}
         </div>
 
         <div className="px-10 py-5">
@@ -37,10 +35,9 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             {dramaMovies.map((movie) => (
               <HomeCard
-                directors={null}
-                description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
+                release_date={movie.release_date || ""}
                 image_url={getImageUrl(movie.image_url || "")}
               />
             ))}
@@ -51,10 +48,9 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {comedyMovies.map((movie) => (
               <HomeCard
-                directors={null}
-                description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
+                release_date={movie.release_date || ""}
                 image_url={getImageUrl(movie.image_url || "")}
               />
             ))}
@@ -65,10 +61,9 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {documentaryMovies.map((movie) => (
               <HomeCard
-                directors={null}
-                description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
+                release_date={movie.release_date || ""}
                 image_url={getImageUrl(movie.image_url || "")}
               />
             ))}
@@ -79,10 +74,9 @@ export default async function Home() {
           <div className="flex flex-row-1 mb-5 overflow-auto gap-5">
             {ninetiesMovies.map((movie) => (
               <HomeCard
-                directors={null}
-                description={""}
                 key={`${movie.title}-${movie.id}`}
                 {...movie}
+                release_date={movie.release_date || ""}
                 image_url={getImageUrl(movie.image_url || "")}
               />
             ))}

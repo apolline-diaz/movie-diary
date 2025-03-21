@@ -7,13 +7,7 @@ import {
 } from "@/app/server-actions/movies/get-movies-by-title-and-keyword";
 import Card from "./card";
 import { getImageUrl } from "@/utils";
-
-interface Movie {
-  id: string;
-  title: string;
-  image_url: string | null;
-  release_date: string | null;
-}
+import { Movie } from "../types/movie";
 
 interface FormValues {
   title: string;
@@ -139,13 +133,9 @@ export default function Searchfield({
         ) : (
           movies.map((movie) => (
             <Card
-              directors={null}
               key={`${movie.title}-${movie.id}`}
               {...movie}
-              image_url={getImageUrl(
-                movie.image_url || "public/assets/missing_image.png"
-              )}
-              description={""}
+              image_url={getImageUrl(movie.image_url || "")}
             />
           ))
         )}

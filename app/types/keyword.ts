@@ -1,5 +1,5 @@
 export type Keyword = {
-  id: string;
-  name: string;
-  created_at: number;
+  id: number;
+  name: string | null;
+  createdAt?: Date | null;
 };

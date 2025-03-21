@@ -233,9 +233,9 @@ const UploadFormPage: React.FC = () => {
           <input
             className="appearance-none block w-full font-light text-sm bg-neutral-950 border-b-white text-white border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none"
             id="runtime"
-            type="number" // Utilisez type "number" pour la durée
+            type="number"
             name="runtime"
-            min="1" // Optionnel : Pour s'assurer que la durée est positive
+            min="1"
             placeholder="91"
           />
         </div>

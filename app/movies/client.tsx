@@ -3,13 +3,7 @@
 import React, { useState } from "react";
 import SearchForm from "@/app/components/search-form";
 import Searchfield from "@/app/components/searchfield";
-
-interface Movie {
-  id: string;
-  title: string;
-  image_url: string;
-  release_date: string;
-}
+import { Movie } from "../types/movie";
 
 interface ClientSearchComponentProps {
   initialMovies: Movie[];

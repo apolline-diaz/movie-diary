@@ -6,13 +6,7 @@ import { searchMovies } from "@/app/server-actions/movies/search-movies";
 import Card from "./card";
 import { getImageUrl } from "@/utils";
 import Select from "./select";
-
-interface Movie {
-  id: string;
-  title: string;
-  image_url: string;
-  release_date: string;
-}
+import { Movie } from "../types/movie";
 
 interface FormValues {
   countryId: string;
@@ -178,11 +172,9 @@ export default function SearchForm({
         ) : (
           movies.map((movie) => (
             <Card
-              directors={null}
               key={`${movie.title}-${movie.id}`}
               {...movie}
-              image_url={getImageUrl(movie.image_url)}
-              description={""}
+              image_url={getImageUrl(movie.image_url || "")}
             />
           ))
         )}
