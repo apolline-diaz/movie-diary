@@ -26,7 +26,6 @@ interface CollapsibleSectionProps {
 
 const MOVIES_PER_PAGE = 50;
 
-// component for folding sections
 function CollapsibleSection({ title, children }: CollapsibleSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
 

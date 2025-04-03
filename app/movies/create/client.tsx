@@ -127,7 +127,7 @@ const CreateMoviePage: React.FC = () => {
           <textarea
             className="w-full rounded-md font-light border p-2 bg-neutral-950"
             {...register("description")}
-            placeholder="Résumé de l'oeuvre"
+            placeholder="Résumé de l'oeuvre..."
           ></textarea>
         </div>
 
