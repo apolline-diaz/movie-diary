@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -9,6 +11,8 @@ import {
 import Card from "./card";
 import { getImageUrl } from "@/utils";
 import { Movie } from "../types/movie";
+import { MovieFilters } from "@/app/hooks/use-movies";
+import InfiniteMoviesList from "./infinite-movies-list";
 
 interface FormValues {
   title: string;
@@ -36,6 +40,11 @@ export default function Searchfield({
   const [isLoading, setIsLoading] = useState(false);
   const [visibleCount, setVisibleCount] = useState(MOVIES_PER_PAGE);
 
+  const [filters, setFilters] = useState<MovieFilters>({
+    title: "",
+    keyword: initialKeyword,
+  });
+
   const titleSearch = watch("title");
   const keywordSearch = watch("keyword");
 
@@ -49,39 +58,21 @@ export default function Searchfield({
 
     const delayDebounceFn = setTimeout(() => {
       updateURL(titleSearch, keywordSearch);
-    });
+      // Mise à jour des filtres pour déclencher une nouvelle requête
+      setFilters({
+        title: titleSearch,
+        keyword: keywordSearch,
+      });
+    }, 500); // Debounce de 500ms
 
     return () => clearTimeout(delayDebounceFn);
   }, [titleSearch, keywordSearch, router, searchParams]);
 
-  useEffect(() => {
-    const fetchMovies = async () => {
-      setIsLoading(true);
-      setVisibleCount(MOVIES_PER_PAGE); // Réinitialise l'affichage à 100 films au départ
-      if (titleSearch) {
-        setMovies(await getMoviesByTitle(titleSearch));
-      } else if (keywordSearch) {
-        setMovies(await getMoviesByKeyword(keywordSearch));
-      } else {
-        setMovies(initialMovies);
-      }
-      setIsLoading(false);
-    };
-
-    const delayDebounceFn = setTimeout(fetchMovies, 0);
-    return () => clearTimeout(delayDebounceFn);
-  }, [titleSearch, keywordSearch, initialMovies]);
-
   const handleReset = () => {
     setValue("title", "");
     setValue("keyword", "");
-    setMovies(initialMovies);
-    setVisibleCount(MOVIES_PER_PAGE);
+    setFilters({});
     router.push("/movies", { scroll: false });
-  };
-
-  const loadMore = () => {
-    setVisibleCount((prevCount) => prevCount + MOVIES_PER_PAGE);
   };
 
   return (
@@ -150,26 +141,9 @@ export default function Searchfield({
         ) : movies.length === 0 ? (
           <p>Aucun film trouvé</p>
         ) : (
-          movies
-            .slice(0, visibleCount)
-            .map((movie) => (
-              <Card
-                key={`${movie.title}-${movie.id}`}
-                {...movie}
-                userIsAdmin={userIsAdmin}
-                image_url={getImageUrl(movie.image_url || "")}
-              />
-            ))
+          <InfiniteMoviesList filters={filters} userIsAdmin={userIsAdmin} />
         )}
       </div>
-      {visibleCount < movies.length && !isLoading && (
-        <button
-          onClick={loadMore}
-          className="w-full flex flex-row justify-center items-center border-b border-t mt-4 px-4 py-2 hover:border-rose-500 text-white hover:text-rose-600"
-        >
-          Voir plus <Icon icon="mdi:chevron-down" className="size-5" />
-        </button>
-      )}
     </div>
   );
 }

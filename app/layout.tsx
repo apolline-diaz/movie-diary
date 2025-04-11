@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
 import Header from "./components/header";
 import Footer from "./components/footer";
@@ -7,6 +8,8 @@ import { getCanonicalUrl } from "@/utils/index";
 import TopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
+
+const queryClient = new QueryClient();
 
 export const metadata: Metadata = {
   metadataBase: new URL(getCanonicalUrl()),
@@ -44,7 +47,9 @@ export default function RootLayout({
         <div className="mb-10">
           <Header />
         </div>
-        <main className="">{children}</main>
+        <QueryClientProvider client={queryClient}>
+          <main>{children}</main>
+        </QueryClientProvider>
         <div className="mt-auto">
           <Footer />
         </div>
