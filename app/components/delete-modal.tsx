@@ -49,12 +49,12 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
     onClose();
   };
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 text-center flex items-center justify-center z-50">
+    <div className="fixed font-light inset-0 bg-black bg-opacity-50 text-center flex items-center justify-center z-50">
       <div
         ref={modalRef}
-        className="bg-black p-6 rounded-xl shadow-xl max-w-md w-full border"
+        className="bg-rose-100 text-black p-6 rounded-xl max-w-md w-full border border-rose-500"
       >
-        <p className="mb-6  ">
+        <p className="mb-6 ">
           Voulez-vous vraiment supprimer cet élément? <br />
           Cette action est irréversible.
         </p>
@@ -64,7 +64,7 @@ export const DeleteModal: React.FC<DeleteModalProps> = ({
         >
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-none border rounded-md hover:border-rose-500 hover:text-rose-500 transition-colors"
+            className="xs:w-full border hover:border-red-500 hover:text-red-500 text-rose-500 px-4 py-2 border-rose-500 rounded-md"
           >
             Annuler
           </button>

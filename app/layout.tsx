@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className} bg-neutral-950 min-h-screen text-white flex flex-col`}
+        className={`${inter.className} bg-red-100 min-h-screen text-white flex flex-col`}
       >
         <TopLoader
           color="#c42d50" // Rose foncé tirant vers le rouge
@@ -38,13 +38,12 @@ export default function RootLayout({
           height={4} // Épaisseur de la barre
           easing="ease"
           speed={500}
-          shadow="0 0 10px #c42d50, 0 0 5px #c42d50" // Ombre assortie
         />
 
-        <div className="mb-10">
+        <div className="">
           <Header />
         </div>
-        <main className="">{children}</main>
+        <main className="bg-rose-100">{children}</main>
         <div className="mt-auto">
           <Footer />
         </div>

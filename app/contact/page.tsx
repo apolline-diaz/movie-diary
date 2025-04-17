@@ -54,11 +54,11 @@ export default function ContactForm() {
   };
 
   return (
-    <div className="px-10 py-5">
+    <div className="px-10 py-20">
       <h2 className="text-2xl text-rose-500 mb-4">Contactez-nous</h2>
       <div className="sm:w-1/2 w-full">
         {status === "success" && (
-          <div className="mb-4 py-3 text-green-200 font-light">
+          <div className="mb-4 py-3 text-rose-800 font-light">
             Votre message a été envoyé avec succès!
           </div>
         )}
@@ -69,14 +69,14 @@ export default function ContactForm() {
           </div>
         )}
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-white mb-2">
+        <form onSubmit={handleSubmit(onSubmit)} className="text-rose-500">
+          <div className=" mb-4">
+            <label htmlFor="name" className="block font-medium mb-2">
               Nom
             </label>
             <input
               id="name"
-              className={`w-full px-3 py-2 border bg-black rounded-md ${
+              className={`w-full px-3 py-2 border font-light bg-white border-rose-500 text-black rounded-md ${
                 errors.name ? "border-red-500" : "border-gray-300"
               }`}
               {...register("name", { required: "Le nom est requis" })}
@@ -87,12 +87,12 @@ export default function ContactForm() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="email" className="block text-white mb-2">
+            <label htmlFor="email" className="block font-medium mb-2">
               Email
             </label>
             <input
               id="email"
-              className={`w-full px-3 py-2 border bg-black rounded-md ${
+              className={`w-full px-3 py-2 border font-light bg-white border-rose-500 text-black rounded-md ${
                 errors.email ? "border-red-500" : "border-gray-300"
               }`}
               {...register("email", {
@@ -111,12 +111,12 @@ export default function ContactForm() {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="message" className="block bg-black text-white mb-2">
+            <label htmlFor="message" className="block font-medium mb-2">
               Message
             </label>
             <textarea
               id="message"
-              className={`w-full px-3 text-white bg-black py-2 border rounded-md ${
+              className={`w-full px-3 text-black border-rose-500 font-light  py-2 border rounded-md ${
                 errors.message ? "border-red-500" : "border-gray-300"
               }`}
               rows={4}

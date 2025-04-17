@@ -81,7 +81,7 @@ export default function MoviesMultiSelect({
               {/* Input de recherche */}
               <input
                 type="text"
-                className="block appearance-none w-full text-sm font-light p-2 border rounded-md bg-transparent"
+                className="block appearance-none w-full text-sm font-light p-2 border placeholder-gray-500 rounded-md bg-white border-rose-500"
                 placeholder={placeholder || "Rechercher..."}
                 value={inputValue}
                 onChange={handleInputChange}
@@ -89,11 +89,11 @@ export default function MoviesMultiSelect({
 
               {/* Liste déroulante des suggestions */}
               {inputValue && filteredOptions.length > 0 && (
-                <ul className="absolute left-0 right-0 uppercase bg-black rounded-md border mt-1 z-10 max-h-40 overflow-y-auto">
+                <ul className="absolute left-0 right-0 uppercase bg-rose-100 border-rose-500 text-rose-500 text-sm rounded-md border mt-1 z-10 max-h-40 overflow-y-auto">
                   {filteredOptions.map((option) => (
                     <li
                       key={option.value}
-                      className="px-4 py-2 cursor-pointer hover:bg-rose-500"
+                      className="px-4 py-2 hover:text-white cursor-pointer hover:bg-rose-500"
                       onClick={() => handleSelectMovie(option)}
                     >
                       {option.label}
@@ -107,12 +107,12 @@ export default function MoviesMultiSelect({
                 {selectedOptions.map((option) => (
                   <span
                     key={option.value}
-                    className=" uppercase flex justify-between items-center bg-rose-100 text-rose-500 text-sm font-medium px-2 py-1 rounded"
+                    className=" uppercase flex border border-rose-500 justify-between items-center bg-rose-100 text-rose-500 text-sm font-medium px-2 py-1 rounded"
                   >
                     {option.label}
                     <button
                       type="button"
-                      className="ml-2 text-red-500 hover:text-red-700"
+                      className="ml-2 text-red-500 hover:text-red-500"
                       onClick={() => handleRemoveMovie(option)}
                     >
                       &times;

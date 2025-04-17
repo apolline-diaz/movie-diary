@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { updateMovie } from "@/app/server-actions/movies/update-movie";
-import Image from "next/image";
+import { Image } from "@/app/components/image";
 import { getImageUrl } from "@/utils/index";
 import { Movie } from "@/app/types/movie";
 import { getKeywords } from "@/app/server-actions/keywords/get-keywords";
@@ -272,19 +272,19 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-lg shadow-lg justify-start text-white mx-auto"
+      className="rounded-lg text-rose-500 justify-start mx-auto"
     >
       {error && (
         <div className="mb-4 p-4 bg-red-500 text-white rounded-md">{error}</div>
       )}
 
-      <div className="grid grid-cols-1 xs:grid-col md:grid-cols-2 gap-6">
+      <div className="flex flex-col gap-6">
         {/* Title */}
         <div className="col-span-2">
           <label className="block text-sm font-medium mb-1">Titre</label>
           <input
             {...register("title", { required: "Title is required" })}
-            className="w-full py-2 text-sm font-light border-b bg-transparent"
+            className="w-full py-2 text-sm font-light border-b border-rose-500 bg-transparent"
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
@@ -299,7 +299,7 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
           <select
             id="director_id"
             {...register("director_id")}
-            className="mt-1 block w-full text-sm font-light bg-transparent border-b border-gray-300 py-2"
+            className="mt-1 block w-full text-sm font-light bg-transparent border-b border-rose-500  py-2"
           >
             <option value="">Select a director</option>
             {availableDirectors.map((director) => (
@@ -328,7 +328,6 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
               <Image
                 src={getImageUrl(imagePreview)}
                 alt={movie.title}
-                fill={true}
                 style={{ objectFit: "cover" }}
                 className="rounded-md  w-full h-full"
                 title={movie.title}
@@ -348,7 +347,7 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
             {...register("image_url")}
             className="w-full py-2 text-sm font-light border-b bg-transparent"
           />
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="text-gray-600 text-xs mt-1">
             Sera utilisée si aucune image n&apos;est téléchargée
           </p>
         </div>
@@ -364,7 +363,7 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
             {...register("image")}
             className="w-full py-2 hover:cursor-pointer focus:outline-none"
           />
-          <p className="text-gray-400 text-xs mt-1">
+          <p className="text-gray-600 text-xs mt-1">
             Laisser vide pour garder l&apos;image actuelle ou utiliser
             l&apos;URL ci-dessus
           </p>
@@ -376,77 +375,79 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
           <textarea
             {...register("description")}
             rows={4}
-            className="w-full px-3 py-2 font-light text-sm border rounded-md bg-transparent"
+            className="w-full px-3 py-2 font-light text-sm border border-rose-500 rounded-md bg-transparent"
           />
         </div>
 
-        {/* Release Date */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Année de sortie
-          </label>
-          <input
-            {...register("release_date")}
-            className="w-full text-sm font-light py-2 border-b bg-transparent"
-          />
-        </div>
+        <div className="grid grid-cols-2 gap-5">
+          {/* Release Date */}
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Année de sortie
+            </label>
+            <input
+              {...register("release_date")}
+              className="w-full text-sm font-light py-2 border-b border-rose-500 bg-transparent"
+            />
+          </div>
 
-        {/* Country Select */}
-        <div>
-          <label htmlFor="country_id" className="block text-sm font-medium">
-            Pays
-          </label>
-          <select
-            id="country_id"
-            {...register("country_id")}
-            className="mt-1 block w-full text-sm font-light bg-transparent border-b border-gray-300 py-2"
-          >
-            <option value="">Select a country</option>
-            {availableCountries.map((country) => (
-              <option
-                key={country.value}
-                value={country.value}
-                // Mark as selected if it matches the current country
-                selected={
-                  movie.countries &&
-                  movie.countries[0]?.id.toString() === country.value
-                }
-              >
-                {country.label}
-              </option>
-            ))}
-          </select>
-        </div>
+          {/* Country Select */}
+          <div>
+            <label htmlFor="country_id" className="block text-sm font-medium">
+              Pays
+            </label>
+            <select
+              id="country_id"
+              {...register("country_id")}
+              className="w-full mt-1 block text-sm font-light bg-transparent border-b border-rose-500  py-2"
+            >
+              <option value="">Select a country</option>
+              {availableCountries.map((country) => (
+                <option
+                  key={country.value}
+                  value={country.value}
+                  // Mark as selected if it matches the current country
+                  selected={
+                    movie.countries &&
+                    movie.countries[0]?.id.toString() === country.value
+                  }
+                >
+                  {country.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        {/* Runtime */}
-        <div>
-          <label className="block text-sm font-medium mb-1">
-            Durée (minutes)
-          </label>
-          <input
-            type="number"
-            {...register("runtime", {
-              pattern: {
-                value: /^\d*\.?\d*$/,
-                message: "Must be a number",
-              },
-            })}
-            className="w-full text-sm font-light py-2 border-b bg-transparent"
-          />
-          {errors.runtime && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.runtime.message}
-            </p>
-          )}
-        </div>
+          {/* Runtime */}
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Durée (minutes)
+            </label>
+            <input
+              type="number"
+              {...register("runtime", {
+                pattern: {
+                  value: /^\d*\.?\d*$/,
+                  message: "Must be a number",
+                },
+              })}
+              className="w-full text-sm font-light border-rose-500  py-2 border-b bg-transparent"
+            />
+            {errors.runtime && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.runtime.message}
+              </p>
+            )}
+          </div>
 
-        {/* Language */}
-        <div>
-          <label className="block text-sm font-medium mb-1">Langue</label>
-          <input
-            {...register("language")}
-            className="w-full text-sm font-light py-2 border-b bg-transparent"
-          />
+          {/* Language */}
+          <div>
+            <label className="block text-sm font-medium mb-1">Langue</label>
+            <input
+              {...register("language")}
+              className="w-full text-sm border-rose-500 font-light py-2 border-b bg-transparent"
+            />
+          </div>
         </div>
 
         {/* Type */}
@@ -454,56 +455,66 @@ export default function EditMovieForm({ movie }: { movie: Movie }) {
           <label className="block text-sm font-medium mb-1">Type</label>
           <input
             {...register("type")}
-            className="w-full text-sm font-light py-2 border-b bg-transparent"
+            className="w-full text-sm font-light border-rose-500 py-2 border-b bg-transparent"
           />
         </div>
 
         {/* Genres Select */}
-        <MultiSelect
-          name="genres"
-          control={control}
-          options={availableGenres}
-          label="Genres"
-          placeholder="Chercher et ajouter des genres..."
-          onChange={(selected) => {
-            setSelectedGenres(selected);
-            setValue(
-              "genres",
-              selected.map((g) => g.value)
-            );
-          }}
-          defaultValues={selectedGenres}
-        />
-        <p className="text-gray-400 text-xs mt-1">
-          Vous pouvez sélectionner plusieurs genres et en retirer.
-        </p>
-
+        <div>
+          <label className="text-rose-500 block text-sm font-medium mb-1">
+            Genres
+          </label>
+          <MultiSelect
+            name="genres"
+            control={control}
+            options={availableGenres}
+            label="Genres"
+            placeholder="Chercher et ajouter des genres..."
+            onChange={(selected) => {
+              setSelectedGenres(selected);
+              setValue(
+                "genres",
+                selected.map((g) => g.value)
+              );
+            }}
+            defaultValues={selectedGenres}
+          />
+          <p className="text-gray-600 text-xs mt-1">
+            Vous pouvez sélectionner plusieurs genres et en retirer.
+          </p>
+        </div>
         {/* Keywords - Multi-Select */}
-        <MultiSelect
-          name="keywords"
-          control={control}
-          options={availableKeywords}
-          label="Mots-clé"
-          placeholder="Chercher et ajouter des mot-clés..."
-          onChange={(selected) => {
-            setSelectedKeywords(selected);
-            setValue(
-              "keywords",
-              selected.map((k) => k.value)
-            );
-          }}
-          defaultValues={selectedKeywords}
-        />
-        <p className="text-gray-400 text-xs mt-1">
-          Vous pouvez sélectionner plusieurs mot-clés et en retirer.
-        </p>
+        <div>
+          <label className="text-rose-500 block text-sm font-medium mb-1">
+            Mots-clés
+          </label>
+
+          <MultiSelect
+            name="keywords"
+            control={control}
+            options={availableKeywords}
+            label="Mots-clé"
+            placeholder="Chercher et ajouter des mot-clés..."
+            onChange={(selected) => {
+              setSelectedKeywords(selected);
+              setValue(
+                "keywords",
+                selected.map((k) => k.value)
+              );
+            }}
+            defaultValues={selectedKeywords}
+          />
+          <p className="text-gray-600 text-xs mt-1">
+            Vous pouvez sélectionner plusieurs mot-clés et en retirer.
+          </p>
+        </div>
       </div>
 
-      <div className="mt-8 flex flex-col gap-3 xs:flex-col sm:flex-row justify-between">
+      <div className="mt-8 font-light flex flex-col gap-3 xs:flex-col sm:flex-row justify-between">
         <button
           type="button"
           onClick={() => router.back()}
-          className="px-4 py-2 bg-none border rounded-md hover:border-rose-500 hover:text-rose-500 transition-colors"
+          className="xs:w-full sm:w-[200px] border hover:border-red-500 hover:text-red-500 text-rose-500 px-4 py-2 border-rose-500 rounded-md"
         >
           Annuler
         </button>

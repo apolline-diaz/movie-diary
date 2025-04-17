@@ -99,21 +99,21 @@ const CreateListPage: React.FC = () => {
   };
 
   return (
-    <div className="px-10 py-5">
+    <div className="px-10 py-20">
       <div className="tracking-wide text-2xl text-rose-500 mb-5">
         Créer une liste de films
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="py-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="py-5 text-rose-500">
         {/* Title of the list */}
         <div className="w-full md:w-1/2 mb-6">
-          <label className="block text-sm mb-2" htmlFor="title">
-            Titre de la liste
+          <label className="block font-medium text-sm mb-2" htmlFor="title">
+            Titre
           </label>
           <input
             {...register("title", { required: "Le titre est requis" })}
-            className="block w-full text-sm bg-neutral-950 border-b py-3 focus:outline-none"
-            placeholder="Mon top 2025"
+            className="block w-full text-sm text-black border-rose-500 placeholder-gray-500 font-light bg-transparent border-b py-2 focus:outline-none"
+            placeholder="Entrez un titre..."
           />
           {errors.title && (
             <span className="text-red-500 text-xs">{errors.title.message}</span>
@@ -122,39 +122,47 @@ const CreateListPage: React.FC = () => {
 
         {/* Description of the list */}
         <div className="w-full md:w-1/2 mt-3 mb-6">
-          <label className="block text-sm mb-2" htmlFor="description">
+          <label
+            className="block font-medium text-sm mb-2"
+            htmlFor="description"
+          >
             Description
           </label>
           <textarea
             {...register("description")}
-            className="block w-full text-sm bg-neutral-950 border py-3 px-4 rounded focus:outline-none"
-            placeholder="Liste des films préférés sortis en 2025"
+            className="block w-full text-sm text-black bg-white placeholder-gray-500 font-light border-rose-500 border py-3 px-4 rounded focus:outline-none"
+            placeholder="Entrez une description..."
           />
         </div>
 
         {/* Movies Selection */}
         <div className="w-full md:w-1/2 mt-3 mb-6">
-          <label className="block text-sm mb-2" htmlFor="movie_search">
-            Films
+          <label
+            className="block font-medium text-sm mb-2"
+            htmlFor="movie_search"
+          >
+            Sélection des films
           </label>
           <input
             value={movieInput}
             onChange={handleMovieInputChange}
-            placeholder="Rechercher des films"
-            className="block w-full text-sm bg-neutral-950 border py-2 px-3 rounded focus:outline-none"
+            placeholder="Cherchez des films..."
+            className="block w-full text-sm bg-white text-black placeholder-gray-500 font-light border-rose-500 border py-2 px-3 rounded focus:outline-none"
           />
 
           {/* Suggestions de films */}
           {isSearching && filteredMovies.length > 0 && (
-            <ul className="absolute border bg-neutral-950 rounded-lg text-sm border-gray-300 mt-1 z-10">
+            <ul className="absolute border bg-red-100 rounded-lg text-sm border-rose-500 mt-1 z-10">
               {filteredMovies.map((movie) => (
                 <li
                   key={movie.id}
-                  className="px-4 py-2 cursor-pointer hover:bg-gray-800"
+                  className="px-4 py-2 cursor-pointer uppercase hover:bg-red-100"
                   onClick={() => handleAddMovie(movie)}
                 >
                   {movie.title}{" "}
-                  <span className="text-gray-400">{movie.release_date}</span>
+                  <span className="text-red-600 font-semibold">
+                    {movie.release_date}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -174,13 +182,13 @@ const CreateListPage: React.FC = () => {
         </div>
 
         {/* Display selected movies as tags */}
-        <div className="mt-3 mb-6">
+        <div className="mt-3 mb-6 -full sm:w-1/2">
           {selectedMovies.map((movieId) => {
             const movie = movies.find((m) => m.id === movieId);
             return movie ? (
               <span
                 key={movie.id}
-                className="inline-flex items-center bg-rose-100 text-rose-500 text-xs font-medium mr-2 px-3 py-1 rounded"
+                className="items-center my-2 border flex justify-between border-rose-500 w-full bg-rose-100 text-rose-500 text-xs font-medium mr-2 px-3 py-1 rounded"
               >
                 {movie.title}
                 <button

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { logout } from "../logout/actions";
 import { User } from "@supabase/supabase-js";
 import { usePathname } from "next/navigation";
@@ -14,10 +14,23 @@ interface HeaderProps {
 export default function Navbar({ user, userIsAdmin }: HeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const handleClick = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Function to define if a link is active
   const isActive = (path: string) => {
@@ -31,15 +44,21 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
 
   // Classe CSS for active links
   const activeLinkClass = "underline underline-offset-8 text-rose-500";
-  const normalLinkClass = "hover:underline underline-offset-8";
+  const normalLinkClass =
+    "hover:underline hover:decoration-rose-500 underline-offset-8";
 
   return (
-    <div className="w-full fixed top-0 left-0 z-50 text-md bg-neutral-950">
+    <div
+      className={`text-rose-500 w-full fixed top-0 left-0 z-50 text-md transition-all duration-300 ${
+        isScrolled ? "bg-red-100" : "bg-transparent"
+      }`}
+    >
       <div className="flex flex-row w-full items-center justify-between gap-10  px-10 py-3">
         {/* Logo */}
         <Link href="/">
-          <h2 className="text-white text-xl xs:text-md">
-            movie <span className="text-rose-500">diary</span>
+          <h2 className="text-white font-raleway font-bold text-xl xs:text-md">
+            <span className="text-rose-500">queer cinema</span>{" "}
+            <span className="text-rose-500 font-light"> database</span>
           </h2>
         </Link>
 
@@ -69,7 +88,7 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
 
               {/* mobile menu */}
               <div
-                className={`absolute top-0 right-0 h-screen w-1/2 xs:w-1/2 sm:w-1/2 bg-neutral-950 md:w-1/3 p-4 transform ${
+                className={`text-black absolute top-0 right-0 h-screen w-1/2 xs:w-1/2 sm:w-1/2 bg-red-100 border-l border-rose-500 md:w-1/3 p-4 transform ${
                   isOpen ? "translate-x-0" : "translate-x-full"
                 } transition-transform duration-300 ease-in-out`}
               >
@@ -93,7 +112,7 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
                 </button>
 
                 {/* mobile navigation links */}
-                <ul className="flex text-white flex-col items-center justify-between gap-5 h-full mt-6">
+                <ul className="bg-red-100 flex text-rose-500 flex-col items-center justify-between gap-5 h-full mt-6">
                   <div className="flex flex-col items-center justify-center gap-5">
                     <li
                       className={
@@ -136,16 +155,15 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
                         <Link href="/movies/create">Contribuer</Link>
                       )}
                     </li>
-                  </div>
-                  <div className="py-10">
+
                     {!user ? (
-                      <li className="hover:text-rose-500 hover:border-rose-500 py-1 px-3 rounded-full border ">
+                      <li className="hover:text-rose-500 hover:bg-red-100 hover:border-rose-500 py-1 px-3 rounded-full border border-rose-500">
                         <Link href="/login">Connexion</Link>
                       </li>
                     ) : (
                       <li>
                         <form action={logout}>
-                          <button className="hover:text-rose-500 hover:border-rose-500 py-1 px-3 rounded-full border ">
+                          <button className="hover:text-rose-500 hover:bg-red-100 hover:border-rose-500 py-1 px-3 rounded-full border border-rose-500">
                             Se déconnecter
                           </button>
                         </form>
@@ -157,7 +175,7 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
             </section>
 
             {/* desktop menu */}
-            <div className="text-white ">
+            <div className="text-rose-500">
               <ul className="DESKTOP-MENU hidden space-x-12 lg:flex  items-center">
                 <li
                   className={
@@ -199,7 +217,7 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
                     <li>
                       <Link
                         href="/login"
-                        className="hover:text-rose-500 hover:border-rose-500 py-1 px-3 rounded-full border"
+                        className="hover:text-rose-500 hover:bg-red-100 hover:border-rose-500 py-1 px-3 rounded-full border border-rose-500"
                       >
                         Connexion
                       </Link>
@@ -207,7 +225,7 @@ export default function Navbar({ user, userIsAdmin }: HeaderProps) {
                   ) : (
                     <li>
                       <form action={logout}>
-                        <button className="hover:text-rose-500 hover:border-rose-500 py-1 px-3 rounded-full border ">
+                        <button className="hover:text-rose-500 hover:bg-red-100 hover:border-rose-500 py-1 px-3 rounded-full border border-rose-500">
                           Se déconnecter
                         </button>
                       </form>

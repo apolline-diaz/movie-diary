@@ -26,8 +26,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="justify-center items-center p-10 flex flex-col">
-      <div className="w-full md:w-[500px] text-left border border-pink-200 p-10 rounded-xl">
+    <div className="justify-center items-center p-10 py-20 flex flex-col">
+      <div className="text-rose-500 w-full md:w-[500px] text-left border border-rose-500 p-10 rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="flex flex-col gap-3 mb-10">
             {/* Mail */}
@@ -40,7 +40,7 @@ export default function LoginPage() {
                   message: "Adresse e-mail invalide",
                 },
               })}
-              className="appearance-none text-sm font-light border-white block w-full bg-neutral-950 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:text-white"
+              className="appearance-none text-sm font-light border-rose-500 block w-full text-rose-500 border rounded py-3 px-4 leading-tight focus:outline-none focus:text-rose-500"
               id="email"
               type="email"
               placeholder="Tapez votre adresse e-mail"
@@ -57,7 +57,7 @@ export default function LoginPage() {
               {...register("password", {
                 required: "Le mot de passe est requis",
               })}
-              className="appearance-none text-sm font-light border-white block w-full bg-neutral-950 text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:text-white"
+              className="appearance-none text-sm font-light border-rose-500 block w-full text-rose-500 border rounded py-3 px-4 leading-tight focus:outline-none focus:text-rose-500"
               id="password"
               type="password"
               placeholder="Tapez votre mot de passe"

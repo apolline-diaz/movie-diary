@@ -65,13 +65,13 @@ export default function KeywordStatsClientComponent({
               Diagramme en camembert
             </button>
           </div>
-          <h2 className="text-xl font-medium pt-4">
+          <h2 className="text-rose-500 text-xl font-medium pt-4">
             Distribution des films par mot-clé
           </h2>
         </div>
       </div>
 
-      <div className="rounded-lg shadow-lg my-6">
+      <div className="rounded-lg my-6">
         {/* Distribution des films par mot-clé ({totalMovies} films au total) */}
         <div className="h-96">
           {chartType === "bar" ? (
@@ -139,16 +139,18 @@ export default function KeywordStatsClientComponent({
         </div>
       </div>
 
-      <div className="rounded-lg shadow-lg">
-        <h2 className="text-xl font-semibold mb-4">Données brutes</h2>
-        <div className="overflow-x-auto">
+      <div className="rounded-lg ">
+        <h2 className="text-xl text-rose-500 font-semibold mb-4">
+          Données brutes
+        </h2>
+        <div className="text-black overflow-x-auto">
           <table className="min-w-full ">
             <thead>
               <tr>
-                <th className="py-2 border-b border-gray-200 text-left">
+                <th className="text-rose-500  py-2 border-b border-gray-200 text-left">
                   Mot-clé
                 </th>
-                <th className="py-2 border-b border-gray-200 text-right">
+                <th className="py-2 border-b text-rose-500 border-gray-200 text-right">
                   Nombre de films
                 </th>
               </tr>
@@ -157,7 +159,7 @@ export default function KeywordStatsClientComponent({
               {keywordStats.map((stat, index) => (
                 <tr
                   key={index}
-                  className={index % 2 === 0 ? "bg-zinc-900" : "bg-zinc-950"}
+                  className={index % 2 === 0 ? "bg-rose-200" : "bg-red-200"}
                 >
                   <td className="py-2 px-4 border-b border-gray-200">
                     {stat.name}

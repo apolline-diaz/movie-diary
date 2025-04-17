@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { Image } from "@/app/components/image";
 import { getImageUrl } from "@/utils";
 import Link from "next/link";
 import { DeleteModal } from "./delete-modal";
@@ -66,7 +66,7 @@ export const ListCard: React.FC<ListCardProps> = ({ list }) => {
               src={getImageUrl(firstMoviePoster)}
               alt={list.title}
               className="object-cover w-full h-full z-20 transform transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:brightness-50"
-              // title={list.title}
+              title={list.title}
             />
 
             <div className="absolute inset-0 bg-black bg-opacity-20 flex flex-col p-4 text-white uppercase justify-end">

@@ -49,7 +49,7 @@ export default function MultiSelect({
   };
 
   return (
-    <div className="col-span-2 relative">
+    <div className="text-rose-500 col-span-2 relative">
       {/* <label className="block text-sm font-medium mb-1">{label}</label> */}
       <Controller
         name={name}
@@ -82,7 +82,7 @@ export default function MultiSelect({
               {/* Input Field for Searching */}
               <input
                 type="text"
-                className="block appearance-none w-full text-sm font-light p-2 border rounded-md bg-transparent"
+                className="block appearance-none text-black placeholder-gray-500 w-full text-sm font-light p-2 border border-rose-500  rounded-md bg-white"
                 placeholder={placeholder || "Rechercher..."}
                 value={inputValue}
                 onChange={handleInputChange}
@@ -90,11 +90,11 @@ export default function MultiSelect({
 
               {/* Dropdown Suggestions */}
               {inputValue && filteredOptions.length > 0 && (
-                <ul className="left-0 right-0 bg-black rounded-md border font-light mt-1 z-10 max-h-40 overflow-y-auto">
+                <ul className="left-0 right-0 bg-bred-100 rounded-md border border-rose-500 text-sm font-light mt-1 z-10 max-h-40 overflow-y-auto">
                   {filteredOptions.map((option) => (
                     <li
                       key={option.value}
-                      className="px-4 py-2 cursor-pointer hover:bg-rose-500"
+                      className="px-4 py-2 cursor-pointer hover:text-white hover:bg-rose-500"
                       onClick={() => {
                         // Check if the option is already selected
                         const isAlreadySelected = safeValue.some(
@@ -120,12 +120,12 @@ export default function MultiSelect({
                 {safeValue.map((option: Option) => (
                   <span
                     key={option.value}
-                    className="inline-flex items-center bg-rose-100 text-rose-500 text-sm font-medium px-2 py-1 rounded"
+                    className="inline-flex items-center bg-rose-100 border border-rose-500  text-rose-500 text-sm  font-light px-2 py-1 rounded"
                   >
                     {option.label}
                     <button
                       type="button"
-                      className="ml-2 text-red-500 hover:text-red-700"
+                      className="ml-2 font-light text-red-500 hover:text-red-700"
                       onClick={() => {
                         const newValue = safeValue.filter(
                           (item: Option) => item.value !== option.value

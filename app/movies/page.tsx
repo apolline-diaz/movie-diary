@@ -60,7 +60,7 @@ export default async function Page({
 
   return (
     <div className="h-full w-full justify-center items-center text-white">
-      <div className="px-10 py-5">
+      <div className="px-10 py-20">
         <h1 className="text-2xl text-rose-500 mb-5">Catalogue</h1>
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4">

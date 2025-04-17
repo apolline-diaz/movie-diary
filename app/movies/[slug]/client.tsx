@@ -111,16 +111,16 @@ export default function ClientMovieActions({ movieId, userIsAdmin }: Props) {
         <button
           onClick={toggleMenu}
           aria-label="Gérer les listes"
-          className="z-10 p-2 bg-gray-800 rounded-full transition-all duration-300 ease-in-out hover:bg-gray-700"
+          className="z-10 p-2 bg-black text-rose-500 rounded-full border bg-opacity-50 border-rose-500 transition-all duration-300 ease-in-out hover:bg-rose-500 hover:text-white"
         >
           <Icon
-            icon={isLoading && !isDataFetched ? "lucide:loader" : "lucide:list"}
+            icon={isLoading && !isDataFetched ? "lucide:loader" : "lucide:plus"}
             className={isLoading && !isDataFetched ? "animate-spin" : ""}
           />
         </button>
 
         {isMenuOpen && (
-          <div className="absolute top-full mt-2 w-48 rounded-lg text-white bg-black shadow-lg">
+          <div className="absolute top-full mt-2 w-48 rounded-lg text-rose-500 bg-red-100 ">
             {lists.length === 0 ? (
               <p className="text-sm text-gray-500 px-3 py-2">
                 {isLoading
@@ -162,7 +162,7 @@ export default function ClientMovieActions({ movieId, userIsAdmin }: Props) {
       {userIsAdmin && (
         <div className="absolute top-20 right-4">
           <Link href={`/movies/edit/${movieId}`}>
-            <button className="right-2 bg-black bg-opacity-60 p-2 mx-3 rounded-full text-rose-500 transition-all duration-300 ease-in-out opacity-100 visible hover:bg-rose-500 hover:text-white">
+            <button className="right-2 bg-black bg-opacity-60 p-2 mx-3 border border-rose-500 rounded-full text-rose-500 transition-all duration-300 ease-in-out opacity-100 visible hover:bg-rose-500 hover:text-white">
               <Icon icon="lucide:edit" />
             </button>
           </Link>

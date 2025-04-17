@@ -40,28 +40,28 @@ export default function ListClientPage({
   }, [id]);
 
   return (
-    <div className="p-10">
+    <div className="p-10 py-20">
       {isLoading ? (
         <div>
           {/* Skeleton for the title */}
-          <div className="animate-pulse bg-gray-400 h-8 w-3/4 mb-4 rounded"></div>
+          <div className="animate-pulse bg-gray-50 border border-gray-300 h-8 w-3/4 mb-4 rounded"></div>
 
           {/* Skeleton for the description */}
-          <div className="animate-pulse bg-gray-400 h-6 w-full mb-6 rounded"></div>
+          <div className="animate-pulse bg-gray-50 border border-gray-300 h-6 w-full mb-6 rounded"></div>
 
           {/* Skeleton button */}
-          <div className="animate-pulse bg-gray-400 h-10 w-48 mb-6 rounded-md"></div>
+          <div className="animate-pulse bg-gray-50 border border-gray-300 h-10 w-48 mb-6 rounded-md"></div>
 
           {/* Skeleton grid for movie cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-5">
             {Array.from({ length: 4 }).map((_, index) => (
               <div
                 key={index}
-                className="animate-pulse rounded-xl bg-gray-500 h-48 w-full justify-end max-w-xs mx-auto group overflow-hidden flex flex-col transition-transform"
+                className="animate-pulse rounded-xl border bg-gray-100 h-48 w-full justify-end max-w-xs mx-auto group overflow-hidden flex flex-col transition-transform"
               >
                 <div className="flex flex-col p-5 space-y-2">
-                  <div className="h-6 bg-gray-400 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-gray-400 rounded w-1/3 mb-2"></div>
+                  <div className="h-6 bg-gray-50 border border-gray-300 rounded w-3/4 mb-2"></div>
+                  <div className="h-4 bg-gray-50 border  border-gray-300 rounded w-1/3 mb-2"></div>
                 </div>
               </div>
             ))}
@@ -73,7 +73,9 @@ export default function ListClientPage({
           <h1 className="text-xl text-rose-500 font-semibold">
             {listData.title}
           </h1>
-          <p className="text-white mt-2 mb-6">{listData.description}</p>
+          <p className="text-black font-light mt-2 mb-6">
+            {listData.description}
+          </p>
 
           {/* Button to edit list */}
           <button

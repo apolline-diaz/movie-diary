@@ -33,17 +33,17 @@ function CollapsibleSection({ title, children }: CollapsibleSectionProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className=" overflow-hidden border-b border-white">
+    <div className=" overflow-hidden border-b border-rose-500">
       <button
         type="button"
         className="w-full flex justify-between items-center text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-medium text-sm mb-2">{title}</span>
+        <span className="font-medium text-rose-500 text-sm mb-2">{title}</span>
         {isOpen ? (
-          <Icon icon="line-md:chevron-up" className="size-5" />
+          <Icon icon="line-md:chevron-up" className="text-rose-500 size-5" />
         ) : (
-          <Icon icon="line-md:chevron-down" className="size-5" />
+          <Icon icon="line-md:chevron-down" className="size-5 text-rose-500 " />
         )}
       </button>
       {isOpen && <div className="mb-2">{children}</div>}
@@ -206,10 +206,7 @@ export default function SearchForm({
 
   return (
     <>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="mt-4 p-4 border rounded-xl mb-4"
-      >
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-4 mb-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 w-full gap-4 justify-between mb-5">
           <CollapsibleSection title="Période">
             <div className="grid grid-cols-2 gap-2">
@@ -304,7 +301,7 @@ export default function SearchForm({
             />
           </CollapsibleSection>
 
-          <CollapsibleSection title="Mots-clé">
+          <CollapsibleSection title="Mots-clés">
             <Controller
               name="keywordIds"
               control={control}
@@ -334,7 +331,7 @@ export default function SearchForm({
           <button
             type="button"
             onClick={handleReset}
-            className="xs:w-full sm:w-[200px] border hover:border-rose-500 hover:text-rose-500 text-white px-4 py-2 rounded-md"
+            className="xs:w-full sm:w-[200px] border hover:border-red-600 hover:text-red-600 text-rose-500 px-4 py-2 border-rose-500 rounded-md"
             disabled={isLoading}
           >
             Réinitialiser
@@ -353,11 +350,11 @@ export default function SearchForm({
           Array.from({ length: 8 }).map((_, index) => (
             <div
               key={index}
-              className="animate-pulse rounded-xl bg-gray-500 h-48 w-full justify-end max-w-xs mx-auto group overflow-hidden flex flex-col transition-transform"
+              className="animate-pulse rounded-xl bg-gray-300 h-48 w-full justify-end max-w-xs mx-auto group overflow-hidden flex flex-col transition-transform"
             >
               <div className="flex flex-col p-5 space-y-2">
-                <div className="h-6 bg-gray-400 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-gray-400 rounded w-1/3 mb-2"></div>
+                <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-gray-200 rounded w-1/3 mb-2"></div>
               </div>
             </div>
           ))
@@ -379,7 +376,7 @@ export default function SearchForm({
       {visibleCount < movies.length && !isLoading && (
         <button
           onClick={loadMore}
-          className="w-full flex flex-row justify-center items-center border-b border-t mt-4 px-4 py-2 hover:border-rose-500 text-white hover:text-rose-600"
+          className="w-full flex flex-row justify-center items-center border rounded-md border-rose-500 border-t mt-4 px-4 py-2 hover:border-red-500 text-rose-500 hover:text-red-500"
         >
           Voir plus <Icon icon="mdi:chevron-down" className="size-5" />
         </button>

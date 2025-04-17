@@ -5,10 +5,8 @@ export default async function StatisticsPage() {
   const keywordStats = await getKeywordStats();
 
   return (
-    <div className="px-10 py-5">
-      <h1 className="text-2xl text-rose-500 mb-5">
-        Statistiques des films par mot-clé
-      </h1>
+    <div className="px-10 py-20">
+      <h1 className="text-2xl text-rose-500 mb-5">Statistiques</h1>
 
       <KeywordStatsClientComponent keywordStats={keywordStats} />
     </div>

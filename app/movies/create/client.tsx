@@ -86,17 +86,17 @@ const CreateMoviePage: React.FC = () => {
   };
 
   return (
-    <div className="px-10 py-5 text-sm w-full sm:w-1/2">
+    <div className="px-10 py-20 text-sm w-full sm:w-1/2">
       <h1 className="tracking-wide text-rose-500 text-2xl mb-5">
         Ajouter un film au catalogue
       </h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="py-5">
+      <form onSubmit={handleSubmit(onSubmit)} className="py-5 text-rose-500">
         {/* Title */}
         <div className="mb-4">
-          <label className="block mb-2">Titre</label>
+          <label className="block font-medium mb-2">Titre</label>
           <input
-            className="w-full font-light border-b p-2 bg-neutral-950"
+            className="w-full text-black font-light bg-transparent border-b p-2 placeholder-gray-500 border-rose-500"
             {...register("title", { required: "Le titre est obligatoire" })}
             placeholder="Tapez le titre..."
           />
@@ -106,9 +106,9 @@ const CreateMoviePage: React.FC = () => {
         </div>
         {/* Director */}
         <div className="mb-4">
-          <label className="block mb-2">Réalisateur-ice</label>
+          <label className="block font-medium mb-2">Réalisateur-ice</label>
           <input
-            className="w-full font-light  border-b p-2 bg-neutral-950"
+            className="w-full text-black font-light placeholder-gray-500 bg-transparent border-b p-2 border-rose-500"
             {...register("director_name", {
               required: "Le nom du réalisateur est obligatoire",
             })}
@@ -123,19 +123,19 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Synopsis */}
         <div className="mb-4">
-          <label className="block mb-2">Synopsis</label>
+          <label className="block font-medium mb-2">Synopsis</label>
           <textarea
-            className="w-full rounded-md font-light border p-2 bg-neutral-950"
+            className="w-full text-black font-light border p-2 placeholder-gray-500 rounded-md border-rose-500"
             {...register("description")}
-            placeholder="Résumé de l'oeuvre"
+            placeholder="Résumé de l'oeuvre..."
           ></textarea>
         </div>
 
         {/* Release date */}
         <div className="mb-4">
-          <label className="block mb-2">Année de sortie</label>
+          <label className="block font-medium mb-2">Année de sortie</label>
           <select
-            className="w-full rounded-md font-light border p-2 bg-neutral-950"
+            className="w-full text-black font-light border p-2 placeholder-gray-500 rounded-md border-rose-500"
             {...register("release_date")}
           >
             <option value="">Sélectionnez une année</option>
@@ -152,9 +152,9 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Country */}
         <div className="mb-4">
-          <label className="block mb-2">Pays</label>
+          <label className="block font-medium mb-2">Pays</label>
           <select
-            className="w-full rounded-md border font-light p-2 bg-neutral-950"
+            className="w-full border font-light p-2 text-black rounded-md border-rose-500"
             {...register("country_id")}
           >
             <option value="">Sélectionnez un pays</option>
@@ -168,10 +168,10 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Runtime */}
         <div className="mb-4">
-          <label className="block mb-2">Durée (minutes)</label>
+          <label className="block font-medium mb-2">Durée (minutes)</label>
           <input
             type="number"
-            className="w-full rounded-md font-light  border p-2 bg-neutral-950"
+            className="w-full font-light border p-2 text-black rounded-md border-rose-500"
             {...register("runtime")}
             placeholder="00"
             min="0"
@@ -180,9 +180,9 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Type */}
         <div className="mb-4">
-          <label className="block mb-2">Type</label>
+          <label className="block font-medium mb-2">Type</label>
           <select
-            className="w-full rounded-md font-light  border p-2 bg-neutral-950"
+            className="w-full font-light text-black border p-2 rounded-md border-rose-500"
             {...register("type")}
           >
             <option value="">Sélectionnez un type</option>
@@ -195,9 +195,9 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Genre */}
         <div className="mb-4">
-          <label className="block mb-2">Genre</label>
+          <label className="block font-medium mb-2">Genre</label>
           <select
-            className="w-full border rounded-md font-light  p-2 bg-neutral-950"
+            className="w-full border font-light text-black p-2 rounded-md border-rose-500"
             {...register("genre_id")}
           >
             <option value="">Sélectionnez un genre</option>
@@ -212,7 +212,7 @@ const CreateMoviePage: React.FC = () => {
         {/* keywords */}
         <div className="w-full md:w-1/2 mt-2 mb-4">
           <label
-            className="block tracking-wide text-white mb-2"
+            className="block font-medium tracking-wide text-rose-500 mb-2"
             htmlFor="keywords"
           >
             Mots-clés
@@ -245,7 +245,7 @@ const CreateMoviePage: React.FC = () => {
 
         {/* Image */}
         <div className="mb-8">
-          <label className="block mb-2">Image</label>
+          <label className="block font-medium mb-2">Image</label>
           <input
             className="rounded-md"
             type="file"
@@ -257,7 +257,7 @@ const CreateMoviePage: React.FC = () => {
           <button
             type="button"
             onClick={() => router.push("/movies")}
-            className="px-4 py-2 bg-none border rounded-md hover:border-rose-500 hover:text-rose-500 transition-colors"
+            className="xs:w-full sm:w-[200px] border hover:border-red-500 hover:text-red-500 text-rose-500 px-4 py-2 border-rose-500 rounded-md"
           >
             Annuler
           </button>

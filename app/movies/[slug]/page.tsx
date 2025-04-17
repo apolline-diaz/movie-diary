@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { Image } from "@/app/components/image";
 import { getImageUrl } from "@/utils/index";
 import { getMovie } from "@/app/server-actions/movies/get-movie";
 import Link from "next/link";
@@ -36,13 +36,12 @@ export default async function Page({ params }: Props) {
           userIsAdmin={userIsAdmin}
         />
       )}
-      <div className="h-[50vh] relative">
+      <div className="h-[75vh] relative">
         <Image
           className="object-cover w-full h-full"
           alt={movie.title}
-          fill
           src={getImageUrl(movie.image_url)}
-          // title={movie.title}s"
+          title={movie.title}
         />
 
         <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-30 w-full h-full text-white p-10 flex justify-between items-end">
@@ -74,14 +73,14 @@ export default async function Page({ params }: Props) {
             </span>
           )}
         </div>
-        <p className="py-2 font-light">{movie.description}</p>
+        <p className="py-2 font-light text-black">{movie.description}</p>
         <div className="font-bold flex items-center flex-wrap gap-2">
           {movie.keywords?.map((keyword) => (
             <Link
               key={keyword.id}
               href={`/movies?keywordIds=${encodeURIComponent(keyword.id.toString())}&searchMode=form`}
             >
-              <span className="font-light text-sm rounded-full border border-rose-500 text-rose-500 shadow-md px-2 mr-1 py-1 hover:bg-rose-500 hover:text-white hover:cursor-pointer">
+              <span className="font-light text-sm rounded-full border border-rose-500 text-rose-500 px-2 mr-1 py-1 hover:bg-rose-500 hover:text-white hover:cursor-pointer">
                 {keyword.name}
               </span>
             </Link>

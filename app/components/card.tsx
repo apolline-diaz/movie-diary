@@ -5,7 +5,7 @@ import Link from "next/link";
 import { deleteMovie } from "../server-actions/movies/delete-movie";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { Image } from "@/app/components/image";
 
 interface CardProps {
   id: string;
@@ -45,21 +45,16 @@ export default function Card({
 
   // **Ici on s'assure de retourner un JSX valide !**
   return (
-    <div className="gap-4 relative group">
-      <div className="group rounded-xl overflow-hidden flex flex-col transition-transform">
+    <div className="relative group">
+      <div className="rounded-xl overflow-hidden flex flex-col">
         <div className="relative h-48 overflow-hidden">
           <Link href={`/movies/${id}`}>
             <Image
               src={getImageUrl(image_url)}
               alt={title}
-              fill
               className="object-cover w-full h-full transform transition-transform duration-700 ease-in-out group-hover:scale-110 group-hover:brightness-50 group-hover:rounded-xl"
+              title={title}
             />
-            <div className="absolute bottom-0 left-0 w-full p-5 bg-gradient-to-t via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <div className="text-md font-semibold uppercase">{title}</div>
-              <p className="text-sm text-gray-300">{release_date}</p>
-              {/* <p className="absolute text-sm text-gray-200 mt-2">{description}</p> */}
-            </div>
           </Link>
 
           {userIsAdmin && (
@@ -71,8 +66,13 @@ export default function Card({
               <Icon icon="lucide:trash" style={{ fontSize: 15 }} />
             </button>
           )}
+          <div className="absolute bottom-0 left-0 w-full p-5 ">
+            <div className="text-md font-semibold uppercase">{title}</div>
+            <p className="text-sm">{release_date}</p>
+          </div>
         </div>
       </div>
+
       <DeleteModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

@@ -1,9 +1,7 @@
 "use server";
 
 import { Movie } from "@/app/types/movie";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/lib/prisma"; // ou le chemin où se trouve votre prisma.ts
 
 export const getMoviesByWord = async (search: string): Promise<Movie[]> => {
   // Si la recherche est vide, retourner les films récents
